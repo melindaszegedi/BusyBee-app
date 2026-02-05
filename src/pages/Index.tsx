@@ -26,7 +26,7 @@ const Index = () => {
       completed: false,
     };
     setTasks([task, ...tasks]);
-    showSuccess("Task added to your precision flow");
+    showSuccess("Task added to your BusyBee flow");
   };
 
   const toggleTask = (id: string) => {
@@ -70,7 +70,7 @@ const Index = () => {
       <main className="md:ml-20 p-4 md:p-8 max-w-6xl mx-auto">
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
           <div>
-            <h1 className="text-3xl font-black tracking-tight text-slate-900">MinuteFlow</h1>
+            <h1 className="text-3xl font-black tracking-tight text-slate-900">BusyBee</h1>
             <p className="text-slate-500 font-medium">Precision management for student-workers</p>
           </div>
           
@@ -138,7 +138,7 @@ const Index = () => {
               <div className="relative z-10">
                 <h3 className="font-bold text-lg mb-1">Student-Worker Mode</h3>
                 <p className="text-indigo-100 text-xs leading-relaxed">
-                  MinuteFlow is currently balancing your 4pm shift with your 6pm study group.
+                  BusyBee is currently balancing your 4pm shift with your 6pm study group.
                 </p>
               </div>
               <Brain className="absolute -right-4 -bottom-4 w-24 h-24 text-indigo-500/30 rotate-12" />
