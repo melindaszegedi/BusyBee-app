@@ -36,7 +36,7 @@ const AddTask = ({ onAdd }: AddTaskProps) => {
     <form onSubmit={handleSubmit} className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm space-y-5">
       <div className="flex gap-2">
         <Input 
-          placeholder="What's the next buzz?" 
+          placeholder="What's the next bizz?" 
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="bg-slate-50 border-none shadow-none rounded-xl focus-visible:ring-amber-400"
