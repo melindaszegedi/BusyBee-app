@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Sparkles, Zap, LayoutDashboard, Calendar as CalendarIcon, Settings, Hexagon } from 'lucide-react';
+import { Sparkles, LayoutDashboard, Calendar as CalendarIcon, Settings, Hexagon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { showSuccess } from '@/utils/toast';
 import TaskItem, { Task } from '@/components/TaskItem';
@@ -9,12 +9,13 @@ import AddTask from '@/components/AddTask';
 import CalendarSync from '@/components/CalendarSync';
 import TimeBlocker from '@/components/TimeBlocker';
 import { MadeWithDyad } from "@/components/made-with-dyad";
+import { BeeIcon } from '@/components/Icons';
 
 const Index = () => {
   const [tasks, setTasks] = useState<Task[]>([
-    { id: '1', title: 'Finish React Project', duration: 120, difficulty: 'hard', category: 'study', completed: false },
-    { id: '2', title: 'Email Professor', duration: 15, difficulty: 'easy', category: 'study', completed: true },
-    { id: '3', title: 'Update Work Spreadsheet', duration: 45, difficulty: 'medium', category: 'work', completed: false },
+    { id: '1', title: 'Finish React Project', duration: 120, buzzLevel: 9, category: 'study', completed: false },
+    { id: '2', title: 'Email Professor', duration: 15, buzzLevel: 2, category: 'study', completed: true },
+    { id: '3', title: 'Update Work Spreadsheet', duration: 45, buzzLevel: 5, category: 'work', completed: false },
   ]);
   const [isCalendarConnected, setIsCalendarConnected] = useState(false);
   const [isPrioritizing, setIsPrioritizing] = useState(false);
@@ -36,10 +37,7 @@ const Index = () => {
   const runAIPrioritization = () => {
     setIsPrioritizing(true);
     setTimeout(() => {
-      const sorted = [...tasks].sort((a, b) => {
-        const difficultyMap = { hard: 3, medium: 2, easy: 1 };
-        return difficultyMap[b.difficulty] - difficultyMap[a.difficulty];
-      });
+      const sorted = [...tasks].sort((a, b) => b.buzzLevel - a.buzzLevel);
       setTasks(sorted);
       setIsPrioritizing(false);
       showSuccess("AI has optimized your hive for maximum productivity");
@@ -51,7 +49,7 @@ const Index = () => {
       {/* Navigation */}
       <nav className="fixed left-0 top-0 h-full w-20 bg-white border-r border-slate-100 flex flex-col items-center py-8 gap-8 z-50 hidden md:flex">
         <div className="w-12 h-12 bg-amber-400 rounded-2xl flex items-center justify-center text-slate-900 shadow-lg shadow-amber-100 transition-transform hover:scale-105 cursor-pointer">
-          <Zap className="w-7 h-7 fill-current" />
+          <BeeIcon className="w-7 h-7" />
         </div>
         <div className="flex flex-col gap-6 mt-8">
           <Button variant="ghost" size="icon" className="rounded-xl text-amber-600 bg-amber-50">
@@ -70,7 +68,7 @@ const Index = () => {
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
           <div className="flex items-center gap-4">
             <div className="md:hidden w-10 h-10 bg-amber-400 rounded-xl flex items-center justify-center text-slate-900">
-              <Zap className="w-6 h-6 fill-current" />
+              <BeeIcon className="w-6 h-6" />
             </div>
             <div>
               <h1 className="text-3xl font-black tracking-tight text-slate-900 flex items-center gap-2">
@@ -157,7 +155,7 @@ const Index = () => {
               <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-8 h-8 bg-amber-400 rounded-lg flex items-center justify-center text-slate-900">
-                    <Zap className="w-5 h-5 fill-current" />
+                    <BeeIcon className="w-5 h-5" />
                   </div>
                   <h3 className="font-bold text-lg">Hive Status</h3>
                 </div>

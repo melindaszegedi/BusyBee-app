@@ -1,19 +1,17 @@
 "use client";
 
 import React from 'react';
-import { CheckCircle2, Circle, Clock, AlertCircle } from 'lucide-react';
+import { CheckCircle2, Circle, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-export type TaskDifficulty = 'easy' | 'medium' | 'hard';
+import { BeeIcon, HornetIcon } from './Icons';
 
 export interface Task {
   id: string;
   title: string;
-  duration: number; // in minutes
-  difficulty: TaskDifficulty;
+  duration: number;
+  buzzLevel: number; // 0-10 scale
   category: 'study' | 'work' | 'personal';
   completed: boolean;
-  startTime?: string;
 }
 
 interface TaskItemProps {
@@ -22,12 +20,8 @@ interface TaskItemProps {
 }
 
 const TaskItem = ({ task, onToggle }: TaskItemProps) => {
-  const difficultyColor = {
-    easy: 'text-emerald-500 bg-emerald-50',
-    medium: 'text-amber-500 bg-amber-50',
-    hard: 'text-rose-500 bg-rose-50',
-  };
-
+  const isHighStress = task.buzzLevel > 7;
+  
   return (
     <div className={cn(
       "group flex items-center gap-4 p-4 rounded-2xl transition-all duration-200 border border-transparent hover:border-slate-200 hover:bg-white hover:shadow-sm",
@@ -35,9 +29,9 @@ const TaskItem = ({ task, onToggle }: TaskItemProps) => {
     )}>
       <button 
         onClick={() => onToggle(task.id)}
-        className="text-slate-400 hover:text-indigo-600 transition-colors"
+        className="text-slate-400 hover:text-amber-600 transition-colors"
       >
-        {task.completed ? <CheckCircle2 className="w-6 h-6 text-indigo-600" /> : <Circle className="w-6 h-6" />}
+        {task.completed ? <CheckCircle2 className="w-6 h-6 text-amber-600" /> : <Circle className="w-6 h-6" />}
       </button>
       
       <div className="flex-1 min-w-0">
@@ -49,21 +43,36 @@ const TaskItem = ({ task, onToggle }: TaskItemProps) => {
             <Clock className="w-3 h-3" />
             {task.duration}m
           </span>
-          <span className={cn("text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider", difficultyColor[task.difficulty])}>
-            {task.difficulty}
-          </span>
+          
+          <div className="flex items-center gap-2">
+            <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+              <div 
+                className={cn(
+                  "h-full transition-all duration-500",
+                  task.buzzLevel < 4 ? "bg-emerald-400" : 
+                  task.buzzLevel < 8 ? "bg-amber-400" : "bg-rose-500"
+                )}
+                style={{ width: `${task.buzzLevel * 10}%` }}
+              />
+            </div>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+              {task.buzzLevel}/10
+            </span>
+          </div>
+
           <span className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">
             {task.category}
           </span>
         </div>
       </div>
 
-      {task.difficulty === 'hard' && !task.completed && (
-        <div className="flex items-center gap-1 text-rose-500 animate-pulse">
-          <AlertCircle className="w-4 h-4" />
-          <span className="text-[10px] font-bold">PRIORITY</span>
-        </div>
-      )}
+      <div className="flex items-center justify-center w-8 h-8">
+        {task.buzzLevel > 5 ? (
+          <HornetIcon className={cn("w-5 h-5", isHighStress ? "text-rose-500 animate-bounce" : "text-amber-600")} />
+        ) : (
+          <BeeIcon className="w-5 h-5 text-emerald-500" />
+        )}
+      </div>
     </div>
   );
 };
