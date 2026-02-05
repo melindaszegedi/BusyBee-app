@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Sparkles, LayoutDashboard, Calendar as CalendarIcon, Settings, Hexagon, Moon, Sun } from 'lucide-react';
+import { Sparkles, LayoutDashboard, Calendar as CalendarIcon, Settings, Hexagon, Moon, Sun, BarChart3, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { showSuccess } from '@/utils/toast';
 import TaskItem, { Task } from '@/components/TaskItem';
@@ -9,9 +9,16 @@ import AddTask from '@/components/AddTask';
 import CalendarSync from '@/components/CalendarSync';
 import TimeBlocker from '@/components/TimeBlocker';
 import HiveInsights from '@/components/HiveInsights';
+import SummaryView from '@/components/SummaryView';
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { BeeIcon } from '@/components/Icons';
 import { cn } from '@/lib/utils';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Index = () => {
   const [tasks, setTasks] = useState<Task[]>([
@@ -22,6 +29,7 @@ const Index = () => {
   const [isCalendarConnected, setIsCalendarConnected] = useState(false);
   const [isPrioritizing, setIsPrioritizing] = useState(false);
   const [isFocusMode, setIsFocusMode] = useState(false);
+  const [summaryType, setSummaryType] = useState<'weekly' | 'monthly' | null>(null);
 
   const handleAddTask = (newTask: Omit<Task, 'id' | 'completed'>) => {
     const task: Task = {
@@ -52,6 +60,11 @@ const Index = () => {
       "min-h-screen transition-colors duration-500 font-sans selection:bg-amber-100 selection:text-amber-900",
       isFocusMode ? "bg-slate-950 text-slate-100" : "bg-[#FAFAFA] text-slate-900"
     )}>
+      {/* Summary Modal */}
+      {summaryType && (
+        <SummaryView type={summaryType} onClose={() => setSummaryType(null)} />
+      )}
+
       {/* Navigation */}
       <nav className={cn(
         "fixed left-0 top-0 h-full w-20 border-r flex flex-col items-center py-8 gap-8 z-50 hidden md:flex transition-colors duration-500",
@@ -89,6 +102,38 @@ const Index = () => {
           </div>
           
           <div className="flex items-center gap-3">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "rounded-2xl px-4 py-6 border-2 transition-all",
+                    isFocusMode 
+                      ? "bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700" 
+                      : "bg-white border-slate-100 text-slate-600 hover:bg-slate-50"
+                  )}
+                >
+                  <BarChart3 className="w-4 h-4 mr-2" />
+                  Summary
+                  <ChevronDown className="w-3 h-3 ml-2 opacity-50" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="rounded-2xl p-2 border-slate-100 shadow-xl">
+                <DropdownMenuItem 
+                  onClick={() => setSummaryType('weekly')}
+                  className="rounded-xl cursor-pointer py-3 px-4 font-bold text-slate-600 focus:bg-amber-50 focus:text-amber-700"
+                >
+                  Weekly Overview
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => setSummaryType('monthly')}
+                  className="rounded-xl cursor-pointer py-3 px-4 font-bold text-slate-600 focus:bg-amber-50 focus:text-amber-700"
+                >
+                  Monthly Overview
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <Button
               variant="outline"
               onClick={() => setIsFocusMode(!isFocusMode)}
