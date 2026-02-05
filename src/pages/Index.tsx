@@ -132,7 +132,7 @@ const Index = () => {
         </header>
 
         {currentView !== 'daily' && (
-          <div className="mb-8">
+          <div className="mb-8 animate-in fade-in slide-in-from-top-2 duration-500">
             <SummaryView view={currentView} tasks={tasks} />
           </div>
         )}
