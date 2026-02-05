@@ -12,12 +12,15 @@ export const BeeIcon = ({ className }: { className?: string }) => (
     strokeLinejoin="round" 
     className={className}
   >
-    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" fill="currentColor" fillOpacity="0.1" />
-    <path d="M7 10c.5-1.5 2-2.5 3.5-2.5s3 1 3.5 2.5" />
-    <path d="M10.5 14.5c.5 1.5 2 2.5 3.5 2.5s3-1 3.5-2.5" />
-    <circle cx="8" cy="12" r="1" fill="currentColor" />
-    <circle cx="16" cy="12" r="1" fill="currentColor" />
-    <path d="M2 12h2M20 12h2" />
+    {/* Body */}
+    <ellipse cx="12" cy="13" rx="6" ry="5" fill="currentColor" fillOpacity="0.1" />
+    {/* Stripes */}
+    <path d="M10 8.5v9M14 8.5v9" />
+    {/* Wings */}
+    <path d="M12 8c-1-3-4-4-6-2s-2 5 1 6" />
+    <path d="M12 8c1-3 4-4 6-2s2 5-1 6" />
+    {/* Antennae */}
+    <path d="M10 8l-1-3M14 8l1-3" />
   </svg>
 );
 

@@ -50,11 +50,11 @@ const AddTask = ({ onAdd }: AddTaskProps) => {
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
             <BeeIcon className="w-3 h-3 text-emerald-500" />
-            Calm
+            Bumblebee
           </div>
           <span className="text-xs font-black text-slate-600">Buzz Level: {buzzLevel[0]}</span>
           <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">
-            Anxious
+            Hornet
             <HornetIcon className="w-3 h-3 text-rose-500" />
           </div>
         </div>
