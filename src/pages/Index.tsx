@@ -9,6 +9,8 @@ import AddTask from '@/components/AddTask';
 import CalendarSync from '@/components/CalendarSync';
 import TimeBlocker from '@/components/TimeBlocker';
 import HiveInsights from '@/components/HiveInsights';
+import SummaryDropdown from '@/components/SummaryDropdown';
+import SummaryView from '@/components/SummaryView';
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { BeeIcon } from '@/components/Icons';
 import { cn } from '@/lib/utils';
@@ -22,6 +24,7 @@ const Index = () => {
   const [isCalendarConnected, setIsCalendarConnected] = useState(false);
   const [isPrioritizing, setIsPrioritizing] = useState(false);
   const [isFocusMode, setIsFocusMode] = useState(false);
+  const [currentView, setCurrentView] = useState<'daily' | 'weekly' | 'monthly'>('daily');
 
   const handleAddTask = (newTask: Omit<Task, 'id' | 'completed'>) => {
     const task: Task = {
@@ -89,11 +92,13 @@ const Index = () => {
           </div>
           
           <div className="flex items-center gap-3">
+            <SummaryDropdown currentView={currentView} onViewChange={setCurrentView} />
+            
             <Button
               variant="outline"
               onClick={() => setIsFocusMode(!isFocusMode)}
               className={cn(
-                "rounded-2xl px-4 py-6 border-2 transition-all",
+                "rounded-2xl px-4 py-6 border-2 transition-all hidden sm:flex",
                 isFocusMode 
                   ? "bg-slate-800 border-slate-700 text-amber-400 hover:bg-slate-700" 
                   : "bg-white border-slate-100 text-slate-600 hover:bg-slate-50"
@@ -126,10 +131,16 @@ const Index = () => {
           </div>
         </header>
 
+        {currentView !== 'daily' && (
+          <div className="mb-8">
+            <SummaryView view={currentView} tasks={tasks} />
+          </div>
+        )}
+
         <div className={cn("grid grid-cols-1 lg:grid-cols-12 gap-8 transition-opacity duration-500", isFocusMode && "opacity-90")}>
           {/* Left Column: Tasks */}
           <div className="lg:col-span-7 space-y-6">
-            {!isFocusMode && (
+            {!isFocusMode && currentView === 'daily' && (
               <section className="animate-in fade-in slide-in-from-top-4 duration-500">
                 <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 px-2 flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
@@ -143,7 +154,7 @@ const Index = () => {
               <div className="flex items-center justify-between mb-4 px-2">
                 <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                  {isFocusMode ? "Current Focus" : "Active Tasks"}
+                  {isFocusMode ? "Current Focus" : currentView === 'daily' ? "Active Tasks" : `${currentView} Task List`}
                 </h2>
                 <span className="text-[10px] font-bold bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full border border-amber-100">
                   {tasks.filter(t => !t.completed).length} Remaining
