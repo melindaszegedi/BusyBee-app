@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Plus, Clock, Brain } from 'lucide-react';
+import { Plus, Clock, Hexagon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -30,34 +30,34 @@ const AddTask = ({ onAdd }: AddTaskProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-slate-50 p-4 rounded-3xl border border-slate-100 space-y-4">
+    <form onSubmit={handleSubmit} className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm space-y-4">
       <div className="flex gap-2">
         <Input 
-          placeholder="What needs to be done?" 
+          placeholder="What's the next buzz?" 
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="bg-white border-none shadow-sm rounded-xl focus-visible:ring-indigo-500"
+          className="bg-slate-50 border-none shadow-none rounded-xl focus-visible:ring-amber-400"
         />
-        <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700 rounded-xl px-3">
+        <Button type="submit" className="bg-amber-400 hover:bg-amber-500 text-slate-900 rounded-xl px-3 shadow-md shadow-amber-100">
           <Plus className="w-5 h-5" />
         </Button>
       </div>
       
       <div className="flex flex-wrap gap-3">
-        <div className="flex items-center gap-2 bg-white px-3 py-1 rounded-xl shadow-sm border border-slate-100">
+        <div className="flex items-center gap-2 bg-slate-50 px-3 py-1 rounded-xl border border-slate-100">
           <Clock className="w-4 h-4 text-slate-400" />
           <input 
             type="number" 
             value={duration}
             onChange={(e) => setDuration(e.target.value)}
-            className="w-12 text-sm font-medium focus:outline-none"
+            className="w-12 text-sm font-medium bg-transparent focus:outline-none"
           />
           <span className="text-xs text-slate-400">min</span>
         </div>
 
         <Select value={difficulty} onValueChange={(v) => setDifficulty(v as TaskDifficulty)}>
-          <SelectTrigger className="w-[110px] bg-white border-none shadow-sm rounded-xl h-9 text-xs">
-            <Brain className="w-3 h-3 mr-2 text-indigo-500" />
+          <SelectTrigger className="w-[110px] bg-slate-50 border-none rounded-xl h-9 text-xs">
+            <Hexagon className="w-3 h-3 mr-2 text-amber-500" />
             <SelectValue placeholder="Difficulty" />
           </SelectTrigger>
           <SelectContent>
@@ -68,7 +68,7 @@ const AddTask = ({ onAdd }: AddTaskProps) => {
         </Select>
 
         <Select value={category} onValueChange={(v) => setCategory(v as any)}>
-          <SelectTrigger className="w-[110px] bg-white border-none shadow-sm rounded-xl h-9 text-xs">
+          <SelectTrigger className="w-[110px] bg-slate-50 border-none rounded-xl h-9 text-xs">
             <SelectValue placeholder="Category" />
           </SelectTrigger>
           <SelectContent>
